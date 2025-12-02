@@ -1,0 +1,12 @@
+node_modules/
+*.log
+.DS_Store
+.env
+*.swp
+*.swo
+*~
+
+# Advent of Code input files (personal, don't commit)
+inputs/day*.txt
+inputs/day*-test.txt
+
