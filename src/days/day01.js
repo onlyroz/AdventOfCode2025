@@ -1,5 +1,3 @@
-import { readInputLines } from '../utils/input.js';
-
 const rotate = (dial, distance, direction) => {
   const multiples = Math.floor(distance / 100);
   const remainder = distance % 100;

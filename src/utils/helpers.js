@@ -70,6 +70,23 @@ export function createGrid(rows, cols, fillValue = 0) {
 }
 
 /**
+ * Converts input text into a grid object with grid, rows, and cols properties
+ * @param {string} input - The input text with lines separated by newlines
+ * @returns {{grid: string[][], rows: number, cols: number}} - Object containing grid and dimensions
+ */
+export function parseGrid(input) {
+  const grid = input.split('\n')
+    .filter(line => line.trim() !== '')
+    .map(line => line.split(''));
+  
+  return {
+    grid,
+    rows: grid.length,
+    cols: grid[0]?.length || 0
+  };
+}
+
+/**
  * Gets neighbors in a 2D grid (4-directional)
  * @param {number} row
  * @param {number} col

@@ -1,5 +1,3 @@
-import { readInputLines } from '../utils/input.js';
-
 export function part1(input) {
   const lines = input.split(',').map(line => { 
     const [start, end] = line.split('-').map(Number);

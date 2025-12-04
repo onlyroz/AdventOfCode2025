@@ -1,4 +1,3 @@
-import { readInputLines } from '../utils/input.js';
 import { sum } from '../utils/helpers.js';
 
 export function part1(input) {
