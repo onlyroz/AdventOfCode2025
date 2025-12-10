@@ -125,6 +125,18 @@ export function manhattanDistance(x1, y1, x2, y2) {
 }
 
 /**
+ * Manhatten distance between two points
+ * @param {number} x1
+ * @param {number} y1
+ * @param {number} x2
+ * @param {number} y2
+ * @returns {number}
+ */
+export function manhattanArea(x1, y1, x2, y2) {
+  return (Math.abs(x1 - x2) + 1) * (Math.abs(y1 - y2) + 1);
+}
+
+/**
  * Checks if a number is within a range (inclusive)
  * @param {number} num
  * @param {number} min
