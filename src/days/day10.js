@@ -391,3 +391,93 @@ export function part2(input) {
   return totalPresses;
 }
 
+function patterns(coeffs) {
+  const numButtons = coeffs.length;
+  const numVariables = coeffs[0].length;
+  const out = new Map();
+  
+  // Initialize all parity patterns
+  for (let i = 0; i < (1 << numVariables); i++) {
+    const parity = Array.from({length: numVariables}, (_, j) => (i >> j) & 1);
+    out.set(parity.join(','), new Map());
+  }
+  
+  // Try all button combinations (bitmask approach)
+  for (let mask = 0; mask < (1 << numButtons); mask++) {
+    const pattern = new Array(numVariables).fill(0);
+    let cost = 0;
+    for (let i = 0; i < numButtons; i++) {
+      if (mask & (1 << i)) {
+        cost++;
+        for (let j = 0; j < numVariables; j++) {
+          pattern[j] += coeffs[i][j];
+        }
+      }
+    }
+    const parity = pattern.map(x => x % 2).join(',');
+    const patternKey = pattern.join(',');
+    const parityMap = out.get(parity);
+    if (!parityMap.has(patternKey) || parityMap.get(patternKey) > cost) {
+      parityMap.set(patternKey, cost);
+    }
+  }
+  return out;
+}
+
+function solve_single(coeffs, goal) {
+  const patternCosts = patterns(coeffs);
+  const memo = new Map();
+  
+  const solve = (goal) => {
+    const key = goal.join(',');
+    if (memo.has(key)) return memo.get(key);
+    if (goal.every(x => x === 0)) return 0;
+    
+    const parity = goal.map(x => x % 2).join(',');
+    const parityMap = patternCosts.get(parity);
+    let answer = Infinity;
+    
+    for (const [patternKey, cost] of parityMap.entries()) {
+      const pattern = patternKey.split(',').map(Number);
+      if (pattern.every((p, i) => p <= goal[i])) {
+        const newGoal = goal.map((g, i) => {
+          const diff = g - pattern[i];
+          return diff >= 0 && diff % 2 === 0 ? diff / 2 : null;
+        });
+        if (newGoal.every(x => x !== null)) {
+          const res = solve(newGoal);
+          if (res !== Infinity) answer = Math.min(answer, cost + 2 * res);
+        }
+      }
+    }
+    memo.set(key, answer);
+    return answer;
+  };
+  
+  return solve(goal);
+}
+
+export function part2_alternate(input) {
+  let score = 0;
+  const lines = input.trim().split('\n');
+  
+  for (let I = 0; I < lines.length; I++) {
+    const parts = lines[I].replaceAll(/[(){}[\]]/g, '').split(' ');
+    const coeffs = parts.slice(1, -1);
+    const goal = parts[parts.length - 1];
+    const goalArr = goal.split(',').map(Number);
+    const numCounters = goalArr.length;
+    
+    const buttonCoeffs = coeffs.map(btn => {
+      const indices = btn.split(',').map(Number);
+      return Array.from({length: numCounters}, (_, i) => indices.includes(i) ? 1 : 0);
+    });
+    
+    const subscore = solve_single(buttonCoeffs, goalArr);
+    console.log(`Line ${I + 1}/${lines.length}: answer ${subscore}`);
+    score += subscore;
+  }
+  
+  return score;
+}
+
