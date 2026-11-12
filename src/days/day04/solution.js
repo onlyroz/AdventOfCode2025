@@ -1,4 +1,4 @@
-import { parseGrid, getNeighbors } from '../utils/helpers.js';
+import { parseGrid, getNeighbors } from '../../utils/helpers.js';
 
 const assessGrid = ({grid, rows, cols}) => {
     let result = 0;

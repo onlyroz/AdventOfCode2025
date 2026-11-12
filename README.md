@@ -1,76 +1,88 @@
 # Advent of Code 2025
 
-JavaScript solutions for Advent of Code 2025.
-
-## Setup
-
-```bash
-npm install
-```
+JavaScript solutions for Advent of Code 2025. No dependencies; needs Node 18+.
 
 ## Usage
 
-Run a specific day's solution:
+Run a day (both parts by default):
 
 ```bash
-npm run day 1
-npm run day 1 1    # Run only part 1
-npm run day 1 2    # Run only part 2
-npm run day 1 -- --test    # Run with test data (note the --)
-npm run day 1 -- 1 -t      # Run part 1 with test data
+npm run day -- 1            # Both parts, real input
+npm run day -- 1 1          # Part 1 only
+npm run day -- 1 -t         # Both parts, test input
+npm run day -- 1 2 -t       # Part 2, test input
+npm run day -- 10 2 -v alternate   # Use the part2_alternate variant
 ```
 
-**Note:** When using npm scripts with flags, you need to use `--` to pass arguments to the script.
-
-Or use node directly (no `--` needed):
+The `--` is needed so npm passes the flags through. You can also call the runner directly:
 
 ```bash
-node src/runner.js 1
-node src/runner.js 1 1
-node src/runner.js 1 2
-node src/runner.js 1 --test
-node src/runner.js 1 1 -t
+node src/runner.js 1 2 --test
 ```
 
-## Project Structure
+### Variants
 
-```
-├── src/
-│   ├── days/          # Day solutions (day01.js, day02.js, etc.)
-│   ├── utils/         # Utility functions
-│   └── runner.js      # Main runner script
-├── inputs/            # Input files (day01.txt, day02.txt, etc.)
-└── package.json
+A day can export extra versions of a part, named `part<N>_<name>`. Pick one with `-v <name>` (or `--variant <name>`). If the variant doesn't exist for that part, the runner says so and uses the default `part<N>`.
+
+Day 10 has `part2_alternate`, a different algorithm for part 2:
+
+```bash
+npm run day -- 10 2 -v alternate
 ```
 
 ## Adding a New Day
 
-1. Create `src/days/dayXX.js` following the template:
-   ```javascript
-   import { readInput } from '../utils/input.js';
+```bash
+npm run new          # Next day after the highest one that exists
+npm run new 13       # Or a specific day
+```
 
-   export function part1(input) {
-     // Your solution here
-   }
+This creates `src/days/day13/` containing:
 
-   export function part2(input) {
-     // Your solution here
-   }
-   ```
+- `solution.js` with `part1` and `part2` stubs
+- `test.txt`, empty, for the example input
+- `input.txt`, downloaded from adventofcode.com if a session token is available
 
-2. Add your input files:
-   - Real input: `inputs/dayXX.txt`
-   - Test input: `inputs/dayXX-test.txt` (optional, for testing)
-   
-   **Note:** Input files are gitignored and won't be committed to the repository.
+To download inputs, copy `.env.example` to `.env` and set `AOC_SESSION` to your adventofcode.com `session` cookie. You can also set it as an environment variable. If the download fails or the puzzle isn't unlocked yet, the scaffold says so and you can paste the input in by hand. The scaffold never overwrites an existing day folder.
 
-3. Run with `npm run day XX`
-4. Test with `npm run day XX -- --test` (note the `--` before `--test`)
+Then paste the example into `test.txt` and run `npm run day -- 13 -t`.
+
+## Project Structure
+
+```
+├── scripts/
+│   └── new-day.js          # Scaffolds a new day (npm run new)
+├── src/
+│   ├── days/
+│   │   └── day01/          # One folder per day
+│   │       ├── solution.js # part1, part2, and any variants
+│   │       ├── input.txt   # Real puzzle input (gitignored)
+│   │       └── test.txt    # Example input (gitignored)
+│   ├── utils/
+│   │   ├── index.js        # Import everything from here
+│   │   ├── input.js        # readInput and friends
+│   │   └── helpers.js      # Shared helpers
+│   └── runner.js           # Runs a day
+├── .env.example            # Template for AOC_SESSION
+└── package.json
+```
 
 ## Utilities
 
-The `utils/input.js` module provides:
-- `readInput(day)` - Reads input file for a given day
-- `readInputLines(day)` - Reads input file as array of lines
-- `readInputGrid(day)` - Reads input file as 2D grid
+Import from `src/utils/index.js` (for example `import { readInputLines, sum } from '../../utils/index.js';`).
 
+Input readers (`input.js`):
+- `readInput(day, useTest)` - raw file contents
+- `readInputLines(day, useTest)` - array of lines
+- `readInputGrid(day, useTest)` - 2D array of characters
+- `readInputParagraphs(day, useTest)` - split on blank lines
+
+Helpers (`helpers.js`):
+- `sum`, `product`, `gcd`, `lcm`, `lcmArray`
+- `parseNumbers(str)` - all integers in a string, including negatives
+- `parseGrid(input)` - `{ grid, rows, cols }`
+- `createGrid(rows, cols, fill)`
+- `getNeighbors(row, col, maxRow, maxCol, includeDiagonals)`
+- `DIRECTIONS_4`, `DIRECTIONS_8` - movement offsets
+- `manhattanDistance`, `manhattanArea`, `inRange`
+- `lines(input)`, `digits(str)`, `pointKey(x, y)`

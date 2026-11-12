@@ -1,4 +1,4 @@
-import { sum } from '../utils/helpers.js';
+import { sum } from '../../utils/helpers.js';
 
 export function part1(input) {
   const grid = input

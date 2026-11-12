@@ -1,4 +1,4 @@
-import { manhattanArea } from '../utils/helpers.js';
+import { manhattanArea, pointKey } from '../../utils/helpers.js';
 
 export function part1(input) {
   const coords = input.split('\n').map(line => line.split(',').map(Number));
@@ -40,7 +40,7 @@ export function part2(input) {
 
   // Helper: check if point is a red tile
   const originalCoords = coords.slice(0, -1); // Remove the duplicate last element
-  const redTiles = new Set(originalCoords.map(c => `${c[0]},${c[1]}`));
+  const redTiles = new Set(originalCoords.map(c => pointKey(c[0], c[1])));
   
   // Pre-compute polygon bounds
   const polyMinX = Math.min(...originalCoords.map(c => c[0]));
