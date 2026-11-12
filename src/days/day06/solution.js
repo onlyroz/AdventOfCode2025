@@ -1,4 +1,4 @@
-import { sum, product } from '../utils/helpers.js';
+import { sum, product } from '../../utils/helpers.js';
 
 export function part1(input) {
   const lines = input

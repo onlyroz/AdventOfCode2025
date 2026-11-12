@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "day": "node src/runner.js",
+    "new": "node scripts/new-day.js",
     "test": "node --test"
   },
   "keywords": [
@@ -19,4 +20,3 @@
     "node": ">=18.0.0"
   }
 }
-

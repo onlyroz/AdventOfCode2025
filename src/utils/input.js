@@ -2,8 +2,26 @@ import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const DAYS_DIR = join(__dirname, '../days');
+
+/**
+ * Pads a day number to two digits (1 -> "01")
+ * @param {number} day
+ * @returns {string}
+ */
+export function dayStr(day) {
+  return String(day).padStart(2, '0');
+}
+
+/**
+ * Absolute path to a day's folder (src/days/dayXX)
+ * @param {number} day - The day number (1-25)
+ * @returns {string}
+ */
+export function dayDir(day) {
+  return join(DAYS_DIR, `day${dayStr(day)}`);
+}
 
 /**
  * Reads the input file for a given day
@@ -12,9 +30,8 @@ const __dirname = dirname(__filename);
  * @returns {string} The raw input file content
  */
 export function readInput(day, useTest = false) {
-  const dayStr = String(day).padStart(2, '0');
-  const filename = useTest ? `day${dayStr}-test.txt` : `day${dayStr}.txt`;
-  const inputPath = join(__dirname, '../../inputs', filename);
+  const filename = useTest ? 'test.txt' : 'input.txt';
+  const inputPath = join(dayDir(day), filename);
   try {
     return readFileSync(inputPath, 'utf-8').trim();
   } catch (error) {
@@ -52,4 +69,3 @@ export function readInputGrid(day, useTest = false) {
 export function readInputParagraphs(day, useTest = false) {
   return readInput(day, useTest).split('\n\n');
 }
-

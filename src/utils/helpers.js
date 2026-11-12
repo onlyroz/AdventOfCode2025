@@ -86,6 +86,40 @@ export function parseGrid(input) {
   };
 }
 
+/** Row/column offsets for 4-directional movement */
+export const DIRECTIONS_4 = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+
+/** Row/column offsets for 8-directional movement */
+export const DIRECTIONS_8 = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+
+/**
+ * Splits input into non-empty lines
+ * @param {string} input
+ * @returns {string[]}
+ */
+export function lines(input) {
+  return input.split('\n');
+}
+
+/**
+ * Converts a string of digits into an array of numbers ("123" -> [1, 2, 3])
+ * @param {string} str
+ * @returns {number[]}
+ */
+export function digits(str) {
+  return str.split('').map(Number);
+}
+
+/**
+ * Builds a string key for a point, handy for Sets and Maps ("3,4")
+ * @param {number} x
+ * @param {number} y
+ * @returns {string}
+ */
+export function pointKey(x, y) {
+  return `${x},${y}`;
+}
+
 /**
  * Gets neighbors in a 2D grid (4-directional)
  * @param {number} row
@@ -97,9 +131,7 @@ export function parseGrid(input) {
  */
 export function getNeighbors(row, col, maxRow, maxCol, includeDiagonals = false) {
   const neighbors = [];
-  const directions = includeDiagonals
-    ? [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]]
-    : [[-1, 0], [1, 0], [0, -1], [0, 1]];
+  const directions = includeDiagonals ? DIRECTIONS_8 : DIRECTIONS_4;
 
   for (const [dr, dc] of directions) {
     const newRow = row + dr;
@@ -113,7 +145,7 @@ export function getNeighbors(row, col, maxRow, maxCol, includeDiagonals = false)
 }
 
 /**
- * Manhatten distance between two points
+ * Manhattan distance between two points
  * @param {number} x1
  * @param {number} y1
  * @param {number} x2
@@ -125,7 +157,7 @@ export function manhattanDistance(x1, y1, x2, y2) {
 }
 
 /**
- * Manhatten distance between two points
+ * Manhattan area of the rectangle with opposite corners (x1, y1) and (x2, y2), inclusive
  * @param {number} x1
  * @param {number} y1
  * @param {number} x2
