@@ -66,7 +66,9 @@ export function parseNumbers(str) {
  * @returns {*[][]}
  */
 export function createGrid(rows, cols, fillValue = 0) {
-  return Array(rows).fill(null).map(() => Array(cols).fill(fillValue));
+  return Array(rows)
+    .fill(null)
+    .map(() => Array(cols).fill(fillValue));
 }
 
 /**
@@ -75,22 +77,37 @@ export function createGrid(rows, cols, fillValue = 0) {
  * @returns {{grid: string[][], rows: number, cols: number}} - Object containing grid and dimensions
  */
 export function parseGrid(input) {
-  const grid = input.split('\n')
-    .filter(line => line.trim() !== '')
-    .map(line => line.split(''));
-  
+  const grid = input
+    .split("\n")
+    .filter((line) => line.trim() !== "")
+    .map((line) => line.split(""));
+
   return {
     grid,
     rows: grid.length,
-    cols: grid[0]?.length || 0
+    cols: grid[0]?.length || 0,
   };
 }
 
 /** Row/column offsets for 4-directional movement */
-export const DIRECTIONS_4 = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+export const DIRECTIONS_4 = [
+  [-1, 0],
+  [1, 0],
+  [0, -1],
+  [0, 1],
+];
 
 /** Row/column offsets for 8-directional movement */
-export const DIRECTIONS_8 = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+export const DIRECTIONS_8 = [
+  [-1, -1],
+  [-1, 0],
+  [-1, 1],
+  [0, -1],
+  [0, 1],
+  [1, -1],
+  [1, 0],
+  [1, 1],
+];
 
 /**
  * Splits input into non-empty lines
@@ -98,7 +115,7 @@ export const DIRECTIONS_8 = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1
  * @returns {string[]}
  */
 export function lines(input) {
-  return input.split('\n');
+  return input.split("\n");
 }
 
 /**
@@ -107,7 +124,7 @@ export function lines(input) {
  * @returns {number[]}
  */
 export function digits(str) {
-  return str.split('').map(Number);
+  return str.split("").map(Number);
 }
 
 /**
@@ -129,7 +146,13 @@ export function pointKey(x, y) {
  * @param {boolean} includeDiagonals
  * @returns {[number, number][]}
  */
-export function getNeighbors(row, col, maxRow, maxCol, includeDiagonals = false) {
+export function getNeighbors(
+  row,
+  col,
+  maxRow,
+  maxCol,
+  includeDiagonals = false,
+) {
   const neighbors = [];
   const directions = includeDiagonals ? DIRECTIONS_8 : DIRECTIONS_4;
 
@@ -178,4 +201,3 @@ export function manhattanArea(x1, y1, x2, y2) {
 export function inRange(num, min, max) {
   return num >= min && num <= max;
 }
-

@@ -72,12 +72,14 @@ Then paste the example into `test.txt` and run `npm run day -- 13 -t`.
 Import from `src/utils/index.js` (for example `import { readInputLines, sum } from '../../utils/index.js';`).
 
 Input readers (`input.js`):
+
 - `readInput(day, useTest)` - raw file contents
 - `readInputLines(day, useTest)` - array of lines
 - `readInputGrid(day, useTest)` - 2D array of characters
 - `readInputParagraphs(day, useTest)` - split on blank lines
 
 Helpers (`helpers.js`):
+
 - `sum`, `product`, `gcd`, `lcm`, `lcmArray`
 - `parseNumbers(str)` - all integers in a string, including negatives
 - `parseGrid(input)` - `{ grid, rows, cols }`

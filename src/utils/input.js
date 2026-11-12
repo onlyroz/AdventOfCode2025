@@ -1,9 +1,9 @@
-import { readFileSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DAYS_DIR = join(__dirname, '../days');
+const DAYS_DIR = join(__dirname, "../days");
 
 /**
  * Pads a day number to two digits (1 -> "01")
@@ -11,7 +11,7 @@ const DAYS_DIR = join(__dirname, '../days');
  * @returns {string}
  */
 export function dayStr(day) {
-  return String(day).padStart(2, '0');
+  return String(day).padStart(2, "0");
 }
 
 /**
@@ -30,13 +30,15 @@ export function dayDir(day) {
  * @returns {string} The raw input file content
  */
 export function readInput(day, useTest = false) {
-  const filename = useTest ? 'test.txt' : 'input.txt';
+  const filename = useTest ? "test.txt" : "input.txt";
   const inputPath = join(dayDir(day), filename);
   try {
-    return readFileSync(inputPath, 'utf-8').trim();
+    return readFileSync(inputPath, "utf-8").trim();
   } catch (error) {
-    const fileType = useTest ? 'test input' : 'input';
-    throw new Error(`Could not read ${fileType} file for day ${day}: ${error.message}`);
+    const fileType = useTest ? "test input" : "input";
+    throw new Error(
+      `Could not read ${fileType} file for day ${day}: ${error.message}`,
+    );
   }
 }
 
@@ -47,7 +49,7 @@ export function readInput(day, useTest = false) {
  * @returns {string[]} Array of lines
  */
 export function readInputLines(day, useTest = false) {
-  return readInput(day, useTest).split('\n');
+  return readInput(day, useTest).split("\n");
 }
 
 /**
@@ -57,7 +59,7 @@ export function readInputLines(day, useTest = false) {
  * @returns {string[][]} 2D array representing the grid
  */
 export function readInputGrid(day, useTest = false) {
-  return readInputLines(day, useTest).map(line => line.split(''));
+  return readInputLines(day, useTest).map((line) => line.split(""));
 }
 
 /**
@@ -67,5 +69,5 @@ export function readInputGrid(day, useTest = false) {
  * @returns {string[]} Array of paragraphs
  */
 export function readInputParagraphs(day, useTest = false) {
-  return readInput(day, useTest).split('\n\n');
+  return readInput(day, useTest).split("\n\n");
 }

@@ -1,6 +1,6 @@
 export function part1(input) {
-  const lines = input.split(',').map(line => { 
-    const [start, end] = line.split('-').map(Number);
+  const lines = input.split(",").map((line) => {
+    const [start, end] = line.split("-").map(Number);
     return { start, end };
   });
 
@@ -12,7 +12,7 @@ export function part1(input) {
 
       const [firstHalf, secondHalf] = [
         str.slice(0, str.length / 2),
-        str.slice(str.length / 2)
+        str.slice(str.length / 2),
       ];
 
       if (firstHalf === secondHalf) result += i;
@@ -23,8 +23,8 @@ export function part1(input) {
 }
 
 export function part2(input) {
-  const lines = input.split(',').map(line => { 
-    const [start, end] = line.split('-').map(Number);
+  const lines = input.split(",").map((line) => {
+    const [start, end] = line.split("-").map(Number);
     return { start, end, diff: end - start };
   });
 
@@ -34,7 +34,7 @@ export function part2(input) {
     for (let i = line.start; i <= line.end; i++) {
       if (hasRepeatingPattern.test(i.toString())) {
         result += i;
-      } 
+      }
     }
   }
 

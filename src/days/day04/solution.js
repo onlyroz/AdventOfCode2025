@@ -1,25 +1,25 @@
-import { parseGrid, getNeighbors } from '../../utils/helpers.js';
+import { parseGrid, getNeighbors } from "../../utils/helpers.js";
 
-const assessGrid = ({grid, rows, cols}) => {
-    let result = 0;
+const assessGrid = ({ grid, rows, cols }) => {
+  let result = 0;
 
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < cols; col++) {
-        if (grid[row][col] !== '@') continue;
-  
-        const numPaper = getNeighbors(row, col, rows, cols, true)
-            .filter(([nc, nr]) => grid[nc][nr] === '@')
-            .length;
-        
-        if (numPaper < 4) {
-          result++;
-          grid[row][col] = '.';
-        }
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      if (grid[row][col] !== "@") continue;
+
+      const numPaper = getNeighbors(row, col, rows, cols, true).filter(
+        ([nc, nr]) => grid[nc][nr] === "@",
+      ).length;
+
+      if (numPaper < 4) {
+        result++;
+        grid[row][col] = ".";
       }
     }
-  
-    return result;
-}
+  }
+
+  return result;
+};
 
 export function part1(input) {
   return assessGrid(parseGrid(input));
